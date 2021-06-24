@@ -1,8 +1,10 @@
 class Board
 
-  attr_reader :board_length
+  attr_reader :board_length,
+              :cells
   def initialize(board_length)
     @board_length = board_length
+    @cells = cell_generator
   end
 
   def letter_generator
@@ -23,5 +25,18 @@ class Board
         letter + coordinate
       end
     end.flatten
+  end
+
+  def cell_generator
+    cells = {}
+    coordinates = coordinate_generator
+    coordinates.map do |coordinate|
+      cells[coordinate] = Cell.new(coordinate)
+    end
+    cells
+  end
+
+  def valid_coordinate?(coordinate)
+    @cells.keys.include?(coordinate)
   end
 end

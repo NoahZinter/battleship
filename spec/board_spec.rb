@@ -16,6 +16,13 @@ describe Board do
       expect(@board.board_length).to eq 5
       expect(@board.board_length).is_a? Integer
     end
+
+    it 'has cells' do
+      expect(@board.cells).is_a? Hash
+      expect(@board.cells.count).to eq 25
+      expect(@board.cells.keys[0]).to eq 'A1'
+      expect(@board.cells.values.last).is_a? Cell
+    end
   end
 
   describe '#letter_generator' do
@@ -47,4 +54,24 @@ describe Board do
       expect(board_2.coordinate_generator).to eq expected
     end
   end
+
+  describe '#cell_generator' do
+    it 'creates a hash of cell objects with each generated coordinate' do
+      board_2 = Board.new(3)
+
+      expect(@board.cell_generator.keys.count).to eq 25
+      expect(@board.cell_generator).is_a? Hash
+      expect(board_2.cell_generator.keys[0]).to eq 'A1'
+      expect(board_2.cell_generator.values[0]).is_a? Cell
+    end
+  end
+
+  describe '#valid_coordinate?' do
+    it 'checks whether a coordinate is within cell hash' do
+      expect(@board.valid_coordinate?('A1')).to eq true
+      expect(@board.valid_coordinate?('E6')).to eq false
+    end
+  end
+
+
 end
