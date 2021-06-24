@@ -8,4 +8,12 @@ class Ship
     @length = length
     @health = length
   end
+
+  def hit
+    if @health >= 1
+      @health -= 1
+    elsif @health == 0
+      return 'Ship Already Sunk!'
+    end
+  end
 end
