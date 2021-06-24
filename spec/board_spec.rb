@@ -129,4 +129,26 @@ describe Board do
       expect(@board.number_array(coordinates)).to eq expected
     end
   end
+
+  describe '#placed_cells' do
+    it 'returns the cells associated with coordinate keys' do
+      coordinates = ['A1', 'A2', 'A3']
+      expected = [@board.cells['A1'], @board.cells['A2'], @board.cells['A3']]
+      expect(@board.placed_cells(coordinates)).to eq expected
+    end
+  end
+
+  describe '#one_element?' do
+    it 'returns true if array is all one element' do
+      array_1 = ['a', 'a', 'a']
+      array_2 = ['a', 'A', 'a']
+      array_3 = [5,5,5]
+      array_4 = [5,5,6]
+
+      expect(@board.one_element?(array_1)).to eq true
+      expect(@board.one_element?(array_2)).to eq false
+      expect(@board.one_element?(array_3)).to eq true
+      expect(@board.one_element?(array_4)).to eq false
+    end
+  end
 end
