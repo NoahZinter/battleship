@@ -14,4 +14,14 @@ class Board
     letters = letter_generator
     letters.map.with_index { |letter, index| (index + 1).to_s }
   end
+
+  def coordinate_generator
+    letters = letter_generator
+    numbers = number_generator
+    letters.map do |letter|
+      letter = numbers.map do |coordinate|
+        letter + coordinate
+      end
+    end.flatten
+  end
 end

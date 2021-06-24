@@ -35,4 +35,16 @@ describe Board do
       expect(board_2.number_generator).to eq(['1', '2', '3', '4', '5', '6'])
     end
   end
+
+  describe '#coordinate_generator' do
+    it 'generates coordinates of letters paired with numbers' do
+      board_2 = Board.new(3)
+
+      expected = ['A1', 'A2', 'A3', 'B1', 'B2', 'B3', 'C1', 'C2', 'C3']
+
+      expect(@board.coordinate_generator.count).to eq(25)
+      expect(board_2.coordinate_generator.count).to eq(9)
+      expect(board_2.coordinate_generator).to eq expected
+    end
+  end
 end
