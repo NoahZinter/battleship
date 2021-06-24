@@ -32,7 +32,12 @@ describe Cell do
       expect(@cell.empty?).to eq false
     end
 
-    it 'does not become false after fired upon'
+    it 'does not become false after fired upon' do
+      @cell.place_ship(@ship)
+      @cell.fire_on
+
+      expect(@cell.empty?).to eq false
+    end
   end
 
   describe '#place ship' do
@@ -56,13 +61,34 @@ describe Cell do
       expect(@cell.fired_upon?).to eq false
     end
 
-    it 'becomes true when fired upon'
+    it 'becomes true when fired upon' do
+      @cell.fire_on
+
+      expect(@cell.fired_upon?).to eq true
+    end
 
   end
 
   describe '#fire_on' do
     it 'changes fired upon ivar' do
       @cell.fire_on
+    end
+
+    it 'cannot fire if already fired on' do
+      @cell.fire_on
+
+      expect(@cell.fired_upon?).to eq true
+      expect(@cell.fire_on).to eq 'Already Fired Here!'
+    end
+
+    it 'damages any ships in cell' do
+      @cell.place_ship(@ship)
+
+      expect(@ship.health).to eq 3
+
+      @cell.fire_on
+
+      expect(@ship.health).to eq 2
     end
   end
 end

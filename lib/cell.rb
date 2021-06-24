@@ -22,6 +22,12 @@ class Cell
   end
 
   def fire_on
+    if fired_upon?
+      return 'Already Fired Here!'
+    end
     @fired_upon = true
+    if !empty?
+      @ship.hit
+    end
   end
 end
