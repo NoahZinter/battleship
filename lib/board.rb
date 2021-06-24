@@ -9,4 +9,9 @@ class Board
     potential_letters = ('A'..'Z').to_a
     potential_letters[0..(@board_length - 1)]
   end
+
+  def number_generator
+    letters = letter_generator
+    letters.map.with_index { |letter, index| (index + 1).to_s }
+  end
 end

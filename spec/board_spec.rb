@@ -26,4 +26,13 @@ describe Board do
       expect(board_2.letter_generator).to eq(['A', 'B', 'C'])
     end
   end
+
+  describe '#number_generator' do
+    it 'generates strings of numbers starting with 1 equal to board length' do
+      board_2 = Board.new(6)
+
+      expect(@board.number_generator).to eq(['1', '2', '3', '4', '5'])
+      expect(board_2.number_generator).to eq(['1', '2', '3', '4', '5', '6'])
+    end
+  end
 end
