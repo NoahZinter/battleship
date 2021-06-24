@@ -39,4 +39,58 @@ class Board
   def valid_coordinate?(coordinate)
     @cells.keys.include?(coordinate)
   end
+
+  def equal_length?(ship, coordinate_array)
+    coordinate_array.length == ship.length
+  end
+
+  def valid_placement?(ship, coordinate_array)
+    return false if coordinate_array.any? { |coordinate| !valid_coordinate?(coordinate) }
+    return false if !equal_length?(ship, coordinate_array)
+    return false if placed_cells(coordinate_array).any? { |cell| !cell.empty? }
+    letter_ords = letter_ord_array(coordinate_array)
+    numbers = number_array(coordinate_array)
+    order_check?(letter_ords, numbers)
+  end
+
+  def place(ship, coordinate_array)
+    return false if !valid_placement?(ship, coordinate_array)
+    placed_cells(coordinate_array).each { |cell| cell.place_ship(ship) }
+  end
+
+  def coordinate_split(coordinate_array)
+    coordinate_array.map { |coord| coord.split('') }
+  end
+
+  def letter_ord_array(coordinate_array)
+    coordinate_split(coordinate_array).map { |array| array[0].ord }
+  end
+
+  def number_array(coordinate_array)
+    coordinate_split(coordinate_array).map { |array| array[1].to_i }
+  end
+
+  def placed_cells(coordinate_array)
+    coordinate_array.map { |coord| @cells[coord] }
+  end
+
+  def one_element?(array)
+    array.uniq.count == 1
+  end
+
+  def increment?(array)
+    array.each_cons(2).all? { |x,y| y == x + 1 }
+  end
+
+  def order_check?(letter_ords, numbers)
+    if one_element?(letter_ords)
+      increment?(numbers)
+    elsif one_element?(numbers)
+      increment?(letter_ords)
+    elsif increment?(letter_ords)
+       one_element?(numbers)
+    elsif increment?(numbers)
+      one_element?(letter_ords)
+    end
+  end
 end
