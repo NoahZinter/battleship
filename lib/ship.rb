@@ -16,4 +16,8 @@ class Ship
       return 'Ship Already Sunk!'
     end
   end
+
+  def sunk?
+    @health <= 0
+  end
 end

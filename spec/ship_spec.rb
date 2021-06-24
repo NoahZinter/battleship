@@ -4,8 +4,10 @@ describe Ship do
   before(:each) do
     @cruiser = Ship.new('Cruiser', 3)
   end
-  it 'exists' do
-    expect(@cruiser).is_a? Ship
+  describe '#initialize' do
+    it 'exists' do
+      expect(@cruiser).is_a? Ship
+    end
   end
 
   describe 'attributes' do
@@ -45,6 +47,18 @@ describe Ship do
       @cruiser.hit
 
       expect(@cruiser.health).to eq 0
+    end
+  end
+
+  describe '#sunk?' do
+    it 'starts as false' do
+      expect(@cruiser.sunk?).to eq false
+    end
+
+    it 'becomes true when health is out' do
+      3.times { @cruiser.hit }
+
+      expect(@cruiser.sunk?).to eq true
     end
   end
 end
