@@ -12,7 +12,16 @@ class Cell
     @ship == nil
   end
 
+  def fired_upon?
+    @fired_upon
+  end
+
   def place_ship(ship)
+    return false if !empty?
     @ship = ship
+  end
+
+  def fire_on
+    @fired_upon = true
   end
 end
