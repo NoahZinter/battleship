@@ -91,4 +91,47 @@ describe Cell do
       expect(@ship.health).to eq 2
     end
   end
+
+  describe '#render' do
+    it 'renders empty cells' do
+      expect(@cell.render).to eq '🌊'
+      expect(@cell.render(true)).to eq '🌊'
+    end
+
+    it 'hides ships unless given optional argument' do
+      @cell.place_ship(@ship)
+
+      expect(@cell.render).to eq '🌊'
+    end
+
+    it 'shows ships when given argument' do
+      @cell.place_ship(@ship)
+
+      expect(@cell.render(true)).to eq '🛳'
+    end
+
+    it 'shows when missed' do
+      @cell.fire_on
+
+      expect(@cell.render).to eq '💦'
+      expect(@cell.render(true)).to eq '💦'
+    end
+
+    it 'shows when hit' do
+      @cell.place_ship(@ship)
+      @cell.fire_on
+
+      expect(@cell.render).to eq '🔥'
+      expect(@cell.render(true)).to eq '🔥'
+    end
+
+    it 'shows when sunk' do
+      ship_3 = Ship.new('Buoy', 1)
+      @cell.place_ship(ship_3)
+      @cell.fire_on
+
+      expect(@cell.render).to eq '💀'
+      expect(@cell.render(true)).to eq '💀'
+    end
+  end
 end

@@ -30,4 +30,34 @@ class Cell
       @ship.hit
     end
   end
+
+  def render(show_ships = nil)
+    if show_ships == true && (!empty? && blank?)
+      '🛳'
+    elsif blank?
+      '🌊'
+    elsif miss?
+      '💦'
+    elsif sunk?
+      '💀'
+    elsif hit?
+      '🔥'
+    end
+  end
+
+  def blank?
+    !fired_upon?
+  end
+
+  def miss?
+    fired_upon? && empty?
+  end
+
+  def hit?
+    fired_upon? && !empty?
+  end
+
+  def sunk?
+    fired_upon? && ship.sunk?
+  end
 end
