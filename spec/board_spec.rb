@@ -151,4 +151,18 @@ describe Board do
       expect(@board.one_element?(array_4)).to eq false
     end
   end
+
+  describe '#increment?' do
+    it 'returns true if array increments' do
+      array_1 = [1,2,3]
+      array_2 = [1,2,4]
+      array_3 = [3,4,5,6,7]
+      array_4 = [65, 65, 66]
+
+      expect(@board.increment?(array_1)).to eq true
+      expect(@board.increment?(array_2)).to eq false
+      expect(@board.increment?(array_3)).to eq true
+      expect(@board.increment?(array_4)).to eq false
+    end
+  end
 end
