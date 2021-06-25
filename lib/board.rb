@@ -139,5 +139,24 @@ class Board
     end
   end
 
+  def fire(coordinate)
+    return 'Invalid Coordinate!' if !valid_coordinate?(coordinate)
+    fired_cell = @cells[coordinate]
+    fired_cell.fire_on
+    shot_evaluate(fired_cell)
+  end
+
+  def shot_evaluate(cell)
+    if cell.miss?
+      puts
+      p "#{cell.coordinate} missed!"
+    elsif cell.sunk?
+      puts
+      p "#{cell.coordinate} sunk the ship!"
+    elsif cell.hit?
+      puts
+      p "#{cell.coordinate} hit a ship!"
+    end
+  end
 
 end

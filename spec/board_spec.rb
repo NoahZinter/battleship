@@ -312,4 +312,49 @@ describe Board do
       end.to output("     1          2          3\n\nA   🛳         🛳         🛳\n\n\n\nB   🌊         🌊         🌊\n\n\n\nC   🌊         🌊         🌊\n\n\n").to_stdout
     end
   end
+
+  describe '#fire #shot_evaluate' do
+    it 'fires on a cell' do
+      expect(@board.cells['A1'].fired_upon?).to eq false
+
+      expect do
+        @board.fire('A1')
+      end.to output("\n\"A1 missed!\"\n").to_stdout
+
+      expect(@board.cells['A1'].fired_upon?).to eq true
+    end
+
+    it 'can register a hit' do
+      @board.place(@ship, ['A1', 'A2', 'A3'])
+      expect(@board.cells['A1'].fired_upon?).to eq false
+
+      expect do
+        @board.fire('A1')
+      end.to output("\n\"A1 hit a ship!\"\n").to_stdout
+
+      expect(@board.cells['A1'].fired_upon?).to eq true
+    end
+
+    it 'can sink a ship' do
+      @board.place(@ship, ['A1', 'A2', 'A3'])
+      expect(@board.cells['A1'].ship.sunk?).to eq false
+      expect(@board.cells['A2'].ship.sunk?).to eq false
+      expect(@board.cells['A3'].ship.sunk?).to eq false
+
+      expect do
+        @board.fire('A1')
+      end.to output("\n\"A1 hit a ship!\"\n").to_stdout
+      expect do
+        @board.fire('A2')
+      end.to output("\n\"A2 hit a ship!\"\n").to_stdout
+      expect do
+        @board.fire('A3')
+      end.to output("\n\"A3 sunk the ship!\"\n").to_stdout
+
+      expect(@board.cells['A1'].ship.sunk?).to eq true
+      expect(@board.cells['A2'].ship.sunk?).to eq true
+      expect(@board.cells['A3'].ship.sunk?).to eq true
+    end
+  end
+
 end
