@@ -241,4 +241,16 @@ describe Board do
       expect(board_2.letter_hasher).to eq expected
     end
   end
+
+  describe '#cell_hasher' do
+    it 'populates letter hash with matching cells' do
+      expected = {
+        'A' => [@board.cells['A1'], @board.cells['A2'], @board.cells['A3'], @board.cells['A4']],
+        'B' => [@board.cells['B1'], @board.cells['B2'], @board.cells['B3'], @board.cells['B4']],
+        'C' => [@board.cells['C1'], @board.cells['C2'], @board.cells['C3'], @board.cells['C4']],
+        'D' => [@board.cells['D1'], @board.cells['D2'], @board.cells['D3'], @board.cells['D4']]
+      }
+      expect(@board.cell_hasher).is_a? Hash
+    end
+  end
 end

@@ -106,5 +106,17 @@ class Board
     end
   end
 
+  def cell_hasher
+    cells = @cells.map {|coord, cell| cell }
+    letter_hash = letter_hasher
+    cells.map do |cell|
+      letter_hash.map do |key, value|
+        if cell.coordinate[0] == key
+          letter_hash[key] << cell
+        end
+      end
+    end
+  end
+
 
 end
