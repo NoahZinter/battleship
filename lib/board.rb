@@ -116,6 +116,22 @@ class Board
         end
       end
     end
+    letter_hash
+  end
+
+  def cell_render(show_ships)
+    cell_hash = cell_hasher
+    binding.pry
+    cell_hash.each do |letter, array|
+      cell_hash[letter] = array.map do |cell|
+        cell.render(show_ships)
+      end
+    end
+
+  end
+
+  def format_render
+
   end
 
 
