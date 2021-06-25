@@ -258,7 +258,28 @@ describe Board do
 
   describe '#cell_render' do
     it 'returns a hash of letters as keys and rendered cells as values' do
-      # expect(@board.cell_render(true)).to eq([])
+      expected = {
+        'A' => ['🌊','🌊','🌊','🌊','🌊'],
+        'B' => ['🌊','🌊','🌊','🌊','🌊'],
+        'C' => ['🌊','🌊','🌊','🌊','🌊'],
+        'D' => ['🌊','🌊','🌊','🌊','🌊'],
+        'E' => ['🌊','🌊','🌊','🌊','🌊'],
+      }
+
+      expect(@board.cell_render(true)).to eq(expected)
+    end
+
+    it 'renders ships when appropriate' do
+      @board.place(@ship, ['A1', 'A2', 'A3'])
+      expected = {
+        'A' => ['🛳','🛳','🛳','🌊','🌊'],
+        'B' => ['🌊','🌊','🌊','🌊','🌊'],
+        'C' => ['🌊','🌊','🌊','🌊','🌊'],
+        'D' => ['🌊','🌊','🌊','🌊','🌊'],
+        'E' => ['🌊','🌊','🌊','🌊','🌊'],
+      }
+
+      expect(@board.cell_render(true)).to eq(expected)
     end
   end
 end

@@ -121,7 +121,7 @@ class Board
 
   def cell_render(show_ships)
     cell_hash = cell_hasher
-    binding.pry
+    # binding.pry
     cell_hash.each do |letter, array|
       cell_hash[letter] = array.map do |cell|
         cell.render(show_ships)
