@@ -165,4 +165,80 @@ describe Board do
       expect(@board.increment?(array_4)).to eq false
     end
   end
+
+  describe '#order_check?' do
+    it 'returns true with increasing numbers' do
+      coords = ['A1', 'A2', 'A3']
+      letter_ords = @board.letter_ord_array(coords)
+      numbers = @board.number_array(coords)
+
+      expect(@board.order_check?(letter_ords, numbers)).to eq true
+    end
+
+    it 'returns true with increasing letters' do
+      coords = ['A1', 'B1', 'C1']
+      letter_ords = @board.letter_ord_array(coords)
+      numbers = @board.number_array(coords)
+
+      expect(@board.order_check?(letter_ords, numbers)).to eq true
+    end
+
+    it 'rejects diagonals' do
+      coords = ['A1', 'B2', 'C3']
+      letter_ords = @board.letter_ord_array(coords)
+      numbers = @board.number_array(coords)
+
+      expect(@board.order_check?(letter_ords, numbers)).to eq false
+    end
+
+    it 'rejects repeated letters' do
+      coords = ['A1', 'B1', 'B2']
+      letter_ords = @board.letter_ord_array(coords)
+      numbers = @board.number_array(coords)
+
+      expect(@board.order_check?(letter_ords, numbers)).to eq false
+    end
+
+    it 'rejects skipped numbers' do
+      coords = ['A1', 'A2', 'A4']
+      letter_ords = @board.letter_ord_array(coords)
+      numbers = @board.number_array(coords)
+
+      expect(@board.order_check?(letter_ords, numbers)).to eq false
+    end
+  end
+
+  describe '#number_header' do
+    it 'renders the numbers horizontally' do
+      expect do
+        @board.number_header
+      end.to output("     1          2          3          4          5\n").to_stdout
+    end
+  end
+
+  describe '#letter_hasher' do
+    it 'creates a hash with board letters as keys and empty arrays as values' do
+      expected = {
+        'A' => [],
+        'B' => [],
+        'C' => [],
+        'D' => [],
+        'E' => []
+      }
+
+      expect(@board.letter_hasher).to eq expected
+    end
+
+    it 'creates variable size hashes' do
+      board_2 = Board.new(3)
+
+      expected = {
+        'A' => [],
+        'B' => [],
+        'C' => []
+      }
+
+      expect(board_2.letter_hasher).to eq expected
+    end
+  end
 end

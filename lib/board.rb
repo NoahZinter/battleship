@@ -91,6 +91,20 @@ class Board
        one_element?(numbers)
     elsif increment?(numbers)
       one_element?(letter_ords)
+    else
+      false
     end
   end
+
+  def number_header
+    puts '     ' + number_generator.join('          ')
+  end
+
+  def letter_hasher
+    letter_generator.reduce({}) do |hash, letter|
+      hash.update(letter => [])
+    end
+  end
+
+
 end
