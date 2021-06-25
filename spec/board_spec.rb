@@ -281,5 +281,35 @@ describe Board do
 
       expect(@board.cell_render(true)).to eq(expected)
     end
+
+    it 'hides ships without argument' do
+      @board.place(@ship, ['A1', 'A2', 'A3'])
+      expected = {
+        'A' => ['🌊','🌊','🌊','🌊','🌊'],
+        'B' => ['🌊','🌊','🌊','🌊','🌊'],
+        'C' => ['🌊','🌊','🌊','🌊','🌊'],
+        'D' => ['🌊','🌊','🌊','🌊','🌊'],
+        'E' => ['🌊','🌊','🌊','🌊','🌊'],
+      }
+
+      expect(@board.cell_render(nil)).to eq(expected)
+    end
+  end
+
+  describe '#format_render' do
+    it 'sends a board to stdout' do
+      board_2 = Board.new(3)
+      expect do
+        board_2.format_render
+      end.to output("     1          2          3\n\nA   🌊         🌊         🌊\n\n\n\nB   🌊         🌊         🌊\n\n\n\nC   🌊         🌊         🌊\n\n\n").to_stdout
+    end
+
+    it 'shows ships with argument' do
+      board_2 = Board.new(3)
+      board_2.place(@ship, ['A1', 'A2', 'A3'])
+      expect do
+        board_2.format_render(true)
+      end.to output("     1          2          3\n\nA   🛳         🛳         🛳\n\n\n\nB   🌊         🌊         🌊\n\n\n\nC   🌊         🌊         🌊\n\n\n").to_stdout
+    end
   end
 end

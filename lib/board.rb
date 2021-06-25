@@ -121,7 +121,6 @@ class Board
 
   def cell_render(show_ships)
     cell_hash = cell_hasher
-    # binding.pry
     cell_hash.each do |letter, array|
       cell_hash[letter] = array.map do |cell|
         cell.render(show_ships)
@@ -130,8 +129,14 @@ class Board
 
   end
 
-  def format_render
-
+  def format_render(show_ships = nil)
+    number_header
+    cell_hash = cell_render(show_ships)
+    cell_hash.map do |letter, cells|
+      puts "\n#{letter}   " + cells.join("         ")
+      puts
+      puts
+    end
   end
 
 
