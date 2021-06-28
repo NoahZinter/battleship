@@ -296,11 +296,11 @@ describe Board do
     end
   end
 
-  describe '#format_render' do
+  describe '#render' do
     it 'sends a board to stdout' do
       board_2 = Board.new(3)
       expect do
-        board_2.format_render
+        board_2.render
       end.to output("     1          2          3\n\nA   🌊         🌊         🌊\n\n\n\nB   🌊         🌊         🌊\n\n\n\nC   🌊         🌊         🌊\n\n\n").to_stdout
     end
 
@@ -308,7 +308,7 @@ describe Board do
       board_2 = Board.new(3)
       board_2.place(@ship, ['A1', 'A2', 'A3'])
       expect do
-        board_2.format_render(true)
+        board_2.render(true)
       end.to output("     1          2          3\n\nA   🛳         🛳         🛳\n\n\n\nB   🌊         🌊         🌊\n\n\n\nC   🌊         🌊         🌊\n\n\n").to_stdout
     end
   end
@@ -356,5 +356,4 @@ describe Board do
       expect(@board.cells['A3'].ship.sunk?).to eq true
     end
   end
-
 end
