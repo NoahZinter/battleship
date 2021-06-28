@@ -83,8 +83,12 @@ class Game
   end
 
   def length_evaluate(length)
+    if length <= 0
+      puts 'Length must be positive'
+      create_ship
+    end
     if length > @max_length
-      puts "That ship is too large!!\n\n"
+      puts 'Length too long!'
       create_ship
     end
   end
