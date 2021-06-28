@@ -126,10 +126,9 @@ class Board
         cell.render(show_ships)
       end
     end
-
   end
 
-  def format_render(show_ships = nil)
+  def render(show_ships = nil)
     number_header
     cell_hash = cell_render(show_ships)
     cell_hash.map do |letter, cells|
@@ -158,5 +157,4 @@ class Board
       p "#{cell.coordinate} hit a ship!"
     end
   end
-
 end
