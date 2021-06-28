@@ -47,10 +47,23 @@ class Game
   end
 
   def board_setter
-    puts "How big should the board be? Enter a number between 1-26."
-    board_length = gets.chomp
-    @max_length = board_length.to_i
-    player_creator(@max_length)
+    puts "How big should the board be? Enter a number between 3-26."
+    board_length = gets.chomp.to_i
+    if board_length_correct?(board_length)
+      @max_length = board_length
+      player_creator(@max_length)
+    else
+      puts 'Invalid Length!'
+      board_setter
+    end
+  end
+
+  def board_length_correct?(length)
+    if length.between?(3, 26)
+      true
+    else
+      false
+    end
   end
 
   def player_creator(length)
