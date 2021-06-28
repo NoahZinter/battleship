@@ -9,7 +9,7 @@ class Computer < Player
     end
   end
 
-  def place
+  def place_ships
     @ships.each do |ship|
       @board.place(ship, coordinate_generator(ship))
     end

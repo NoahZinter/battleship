@@ -1,4 +1,4 @@
-class game
+class Game
 
   attr_reader :player,
               :computer,
@@ -9,6 +9,16 @@ class game
     @computer = computer
     @game_over = false
     @max_length = 3
+  end
+
+  def play
+    board_setter
+    create_ship
+    show_computer_board
+    show_player_board
+    player.place_ships
+    computer.place_ships
+    gameplay
   end
 
   def welcome_message
@@ -26,7 +36,7 @@ class game
 
   def welcome_evaluate(input)
     if input == "P"
-      start
+      play
     elsif input == "Q"
       puts "Goodbye!"
     else
@@ -46,8 +56,8 @@ class game
   def player_creator(length)
     player_board = Board.new(length)
     computer_board = Board.new(length)
-    @player = Player.new(@player_board)
-    @computer = Computer.new(@computer_board)
+    @player = Player.new(player_board)
+    @computer = Computer.new(computer_board)
   end
 
   def create_ship
@@ -56,6 +66,7 @@ class game
     puts "How long should #{name} be? ->"
     length = gets.chomp.to_i
     length_evaluate(length)
+    ship_initializer(name, length)
   end
 
   def length_evaluate(length)
@@ -70,5 +81,96 @@ class game
     computer_ship = Ship.new(name, length)
     player.add_ship(player_ship)
     computer.add_ship(computer_ship)
+  end
+
+  def show_computer_board
+    puts "==========COMPUTER BOARD=========="
+    puts computer.board.render
+    puts "==================================\n\n\n"
+  end
+
+  def show_player_board
+    puts "==========PLAYER BOARD=========="
+    puts player.board.render(true)
+    puts "================================\n\n\n"
+  end
+
+  def dead?(competitor)
+    competitor.ships.all? { |ship| ship.health == 0 }
+  end
+
+  def game_over?
+    if dead?(player)
+      @game_over = true
+      game_over_message
+    elsif dead?(computer)
+      @game_over = true
+      game_over_message
+    else
+      @game_over = false
+    end
+    @game_over
+  end
+
+  def game_over_message
+    if dead?(player)
+      puts "Computer won."
+    elsif dead?(computer)
+      puts "YOU WON!!!!!!"
+    end
+  end
+
+  def player_shot
+    show_player_board
+    show_computer_board
+    puts "Time to 🔥 FIRE 🔥\n\nEnter your shot coordinate ->"
+    coordinate = gets.chomp.upcase!
+    coordinate_evaluator(coordinate)
+    puts "\n"
+  end
+
+  def coordinate_evaluator(coordinate)
+    target_board = computer.board
+    if target_board.valid_coordinate?(coordinate) && target_board.cells[coordinate].fired_upon?
+      puts "\n\n!!!Already Fired Here!!!\n\n\n----------------------"
+      player_shot
+    elsif target_board.valid_coordinate?(coordinate) && !target_board.cells[coordinate].fired_upon?
+      target_board.fire(coordinate)
+    else
+      puts "\n\nThat's not a coordinate. What are you doing?\n\n^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+      player_shot
+    end
+  end
+
+  def computer_shot
+    cell = available_player_cells.first
+    puts "\n\n <<COMPUTER>> 'I shoot at #{cell.coordinate}'"
+    player.board.fire(cell.coordinate)
+    puts "\n"
+  end
+
+  def available_player_cells
+    possible = player.board.cells.values
+    unfired = possible.select { |cell| !cell.fired_upon? }
+    unfired.shuffle!
+  end
+
+  def gameplay
+    loop do
+      player_shot
+      if game_over?
+        puts "game over"
+        puts "\n"
+        welcome
+      break
+      end
+    computer_shot
+      if game_over?
+        puts "game over"
+        puts "\n"
+        welcome
+      break
+      end
+    end
   end
 end
